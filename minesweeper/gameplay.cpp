@@ -27,8 +27,60 @@ void Play::gameIntro(){
     
 }
 
-void Play::start(){
+bool Play::start(){
+    gameIntro();
+    int gameDifficulty=selectDifficulty();
+    //we have difficulty, now generate a board using it
+    board = Board(gameDifficulty);
+    board.generateBoard();
 
+    int inputRow, inputCol;
+    char action;
+    bool gameOver=false;
+    int bombs;
+
+    while(!gameOver){
+        cout<<"============================"<<endl;
+        board.printBoard(1);
+    
+        while(true){
+            cout << "Enter row and column (ex. 1 2): ";
+            cin >> inputRow >> inputCol;
+            if(validate(inputRow, inputCol)){
+                break;
+            }
+            cout<<endl<<"Invalid coordinates"<<endl;
+        }
+        while(true){
+            cout << "Enter action (O for open, F for flag, ? for mark for later): ";
+            cin >> action;
+            if(action=='O'||action=='F'||action!='?'){
+                break;
+            }
+            cout<<endl<<"Invalid action input"<<endl;
+        }
+
+        switch(action){
+            case 'O':
+                    if(isCellBomb(inputRow,inputCol)){
+                        return lose();
+                    }
+                    else{
+                        revealSquare(inputRow,inputCol);
+                    }
+                break;
+            case 'F': 
+                    board.getPlayerBoard()[inputRow][inputCol]='F';
+                    if(checkWin()){
+                        return win();
+                    }
+                break;
+            case '?':
+                    board.getPlayerBoard()[inputRow][inputCol]='?';
+                break;
+            default: cout<<"unknown case"<<endl;
+        }
+    }
 }
 
 // Validates if tile at given row and column is a valid move
@@ -55,10 +107,19 @@ bool Play::validate(int row, int col) {
     return false;
 }
 
-// Counts the number of bombs on the board
-// int Play::countBombs() {
-//     // TODO: Implement
-// }
+//Counts the number of bombs around a selected square
+int Play::countBombs(int row, int col) {
+    int count = 0;
+    const vector<vector<char>>& board = this->board.getGameBoard();
+
+    for (int i = max(1, row - 1); i <= min(MAXBOARD, row + 1); i++) {
+        for (int j = max(1, col - 1); j <= min(MAXBOARD, col + 1); j++) {
+            if (board[i][j] == 'X') {
+                count++;
+            }
+        }
+    }
+}
 
 // Checks if the player has won the game
 bool Play::checkWin() {
@@ -81,18 +142,91 @@ bool Play::checkWin() {
 
 // Checks if cell at given row and column is a bomb
 bool Play::isCellBomb(int row, int col) {
-    // TODO: Implement
+    
+    if(board.getGameBoard()[row][col] == 'X'){
+        return true;
+    }
     return false;
 }
 
 // Marks the player board with the given type at the given row and column
 void Play::markPlayerBoard(int row, int col, char type) {
-    // TODO: Implement
+    board.getPlayerBoard()[row][col]=type;
 }
 
 // Marks the game board with the given type at the given row and column
 void Play::markGameBoard(int row, int col, char type) {
-    // TODO: Implement
+    if(board.getGameBoard()[row][col]!='X'){//dont want to overwrite the bombs, this is intended to be the board displayed when the player loses
+        board.getGameBoard()[row][col]=type;
+    }
+}
+
+int Play::selectDifficulty(){
+    int choice;
+    while (true) {
+        cout << "Select a difficulty:" << endl;
+        cout << "1. Easy" << endl;
+        cout << "2. Medium" << endl;
+        cout << "3. Hard" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        if (choice >= EASY && choice <= HARD) {
+            break;
+        }
+        cout << "Invalid choice, please try again." << std::endl;
+    }
+    return choice;
+}
+
+bool Play::lose(){
+    char input;
+    cout << "Oops, you hit a mine! Game over."<<endl;
+    cout << "Here is the final game board:"<<endl;
+    board.printBoard(0);
+    cout<<endl<<"Play Again? Y/N"<<endl;
+    cin>>input;
+    if(input=='Y'||input=='y'){
+        return true;
+    }
+}
+
+bool Play::win(){
+    char input;
+    cout<<"Congratulations, you have cleared the minefield! You are a true champion!"<<endl;
+    board.printBoard(1);
+    cout<<endl<<"Play Again? Y/N"<<endl;
+    cin>>input;
+    if(input=='Y'||input=='y'){
+        return true;
+    }
 }
 
 
+void Play::revealSquare(int row, int col){
+    if(!validate(row,col)){
+        return;
+    }
+    if (board.getPlayerBoard()[row][col] != '-') {
+        // Check if the square has already been revealed or flagged
+        return;
+    }
+    // if (board.getPlayerBoard()[row][col] == 'X') {// i might pull this up and out
+    //     // Check if the square contains a bomb
+    //     lose();
+    //     return;
+    // }
+    int numBombs = countBombs(row, col);
+
+    board.getPlayerBoard()[row][col] = '0' + numBombs;
+    if (numBombs == 0) {
+        // Recursively reveal adjacent squares
+        revealSquare(row-1, col-1);
+        revealSquare(row-1, col);
+        revealSquare(row-1, col+1);
+        revealSquare(row, col-1);
+        revealSquare(row, col+1);
+        revealSquare(row+1, col-1);
+        revealSquare(row+1, col);
+        revealSquare(row+1, col+1);
+    }
+}

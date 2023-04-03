@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char* argv[]){
     cout<<"Testing output before"<<endl;
 
-    Board board(HARD);
+    Board board(EASY);
     board.generateBoard();
     cout<<"board generated"<<endl;
     board.printBoard(0);

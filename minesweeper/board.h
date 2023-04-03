@@ -8,13 +8,13 @@
 #define MAXBOARD 25
 using namespace std;
 
-    int small = 9;
-    int medium = 16;
-    int large = 24;
+    const int small = 9;
+    const int medium = 16;
+    const int large = 24;
 
-    int easyMine=10;
-    int medMine=40;
-    int hardMine=120;
+    const int easyMine=10;
+    const int medMine=40;
+    const int hardMine=120;
 
 class Board{
    // char gameBoard[MAXBOARD][MAXBOARD];

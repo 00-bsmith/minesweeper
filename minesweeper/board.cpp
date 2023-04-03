@@ -47,7 +47,7 @@ void Board::printBoard(int which) {
     //1 is player board
 
     // if(difficulty==EASY){
-    //     for(int i=1;i<=small;i++){
+    //     for(int i=0;i<=small;i++){
     //         for (int j=1; j<=small;j++){
     //             if(which==0){cout<<gameBoard[i][j]<<" ";}
     //             else if(which==1){cout<<playerBoard[i][j]<<" ";}
@@ -56,7 +56,7 @@ void Board::printBoard(int which) {
     //     }
     // }
     // else if(difficulty==MEDIUM){
-    //     for(int i=1;i<=medium;i++){
+    //     for(int i=0;i<=medium;i++){
     //         for (int j=1; j<=medium;j++){
     //             if(which==0){cout<<gameBoard[i][j]<<" ";}
     //             else if(which==1){cout<<playerBoard[i][j]<<" ";}
@@ -65,7 +65,7 @@ void Board::printBoard(int which) {
     //     }
     // }
     // else if(difficulty==HARD){
-    //     for(int i=1;i<=large;i++){
+    //     for(int i=0;i<=large;i++){
     //         for (int j=1; j<=large;j++){
     //             if(which==0){cout<<gameBoard[i][j]<<" ";}
     //             else if(which==1){cout<<playerBoard[i][j]<<" ";}
@@ -76,17 +76,17 @@ void Board::printBoard(int which) {
 
     if(difficulty==EASY){
     cout << "   ";
-    for (int i=1; i <= small; i++) {
+    for (int i=0; i < small; i++) {
         cout << "| " << i+1 << " ";
     }
     cout << "|" << endl;
     cout << "  _";
-    for (int i=1; i <= small; i++) {
+    for (int i=0; i < small; i++) {
         cout << "|___";
     }
     cout << "|" << endl;
 
-    for (int i=1; i <= small; i++) {
+    for (int i=0; i < small; i++) {
         cout << setw(2) << i+1 << "|";
         for (int j = 0; j < small; j++) {
             if(which==0){cout<<setw(2)<<gameBoard[i][j]<<"  ";}
@@ -96,7 +96,7 @@ void Board::printBoard(int which) {
     }
 
     cout << "  -";
-    for (int i=1; i <= small; i++) {
+    for (int i=0; i < small; i++) {
         cout << "|---";
     }
     cout << "|" << endl;
@@ -105,17 +105,17 @@ void Board::printBoard(int which) {
 
     else if(difficulty==MEDIUM){
         cout << "   ";
-        for (int i=1; i < medium; i++) {
+        for (int i=0; i < medium; i++) {
             cout << "|" << setw(2) << i+1<<setw(2);
         }
         cout << "|" << endl;
         cout << "  _";
-        for (int i=1; i < medium; i++) {
+        for (int i=0; i < medium; i++) {
             cout << "|___";
         }
         cout << "|" << endl;
 
-        for (int i=1; i < medium; i++) {
+        for (int i=0; i < medium; i++) {
             cout << setw(2) << i+1 << "|";
             for (int j = 0; j < medium; j++) {
                 if(which==0){cout<<setw(2)<<gameBoard[i][j]<<"  ";}
@@ -125,24 +125,24 @@ void Board::printBoard(int which) {
         }
 
         cout << "  -";
-        for (int i=1; i < medium; i++) {
+        for (int i=0; i < medium; i++) {
             cout << "|---";
         }
         cout << "|" << endl;
     }
     else if(difficulty==HARD){
         cout << "   ";
-        for (int i=1; i < large; i++) {
+        for (int i=0; i < large; i++) {
             cout << "| " << setw(2) << i+1;
         }
         cout << "|" << endl;
         cout << "  _";
-        for (int i=1; i < large; i++) {
+        for (int i=0; i < large; i++) {
             cout << "|___";
         }
         cout << "|" << endl;
 
-        for (int i=1; i < large; i++) {
+        for (int i=0; i < large; i++) {
             cout << setw(2) << i+1 << "|";
             for (int j = 0; j < large; j++) {
                 if(which==0){cout<<setw(2)<<gameBoard[i][j]<<"  ";}
@@ -152,7 +152,7 @@ void Board::printBoard(int which) {
         }
 
         cout << "  -";
-        for (int i=1; i < large; i++) {
+        for (int i=0; i < large; i++) {
             cout << "|---";
         }
         cout << "|" << endl;
@@ -169,7 +169,7 @@ void Board::generateBoard() {
 
 
     if(difficulty==EASY){
-        for(int i=1; i<=easyMine;){
+        for(int i=0; i<=easyMine;){
             int row = rand()%small+1;
             int col = rand()%small+1;
             if(gameBoard[row][col]!='X'){
@@ -181,7 +181,7 @@ void Board::generateBoard() {
         }
     }
     else if(difficulty==MEDIUM){
-        for(int i=1; i<=medMine;){
+        for(int i=0; i<=medMine;){
             int row = rand()%medium+1;
             int col = rand()%medium+1;
             if(gameBoard[row][col]!='X'){
@@ -191,7 +191,7 @@ void Board::generateBoard() {
         }
     }
     else if(difficulty==HARD){
-        for(int i=1; i<=hardMine;){
+        for(int i=0; i<=hardMine;){
             int row = rand()%large+1;
             int col = rand()%large+1;
             if(gameBoard[row][col]!='X'){
