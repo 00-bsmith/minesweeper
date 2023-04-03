@@ -2,7 +2,8 @@
 
 
 //#include "headers/board.h"
-#include "board.h"
+#include "headers/board.h"
+#include "gameplay.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -13,11 +14,9 @@
 
 using namespace std;
 int main(int argc, char* argv[]){
-    cout<<"Testing output before"<<endl;
-
-    Board board(EASY);
-    board.generateBoard();
-    cout<<"board generated"<<endl;
-    board.printBoard(0);
-    cout<<"testing output after"<<endl;
+    bool keepPlaying=true;
+    Play play;
+    while(keepPlaying){
+        keepPlaying= play.start();
+    }
 }
