@@ -33,8 +33,7 @@ bool Play::start(){
     //we have difficulty, now generate a board using it
     board = Board(gameDifficulty);
     board.generateBoard();
-    //for testing
-    board.printBoard(0);//remove after testing
+    
     int inputRow, inputCol;
     char action;
     bool gameOver=false;
